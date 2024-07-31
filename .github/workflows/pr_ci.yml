@@ -15,20 +15,20 @@ jobs:
     if: ${{ !startsWith(github.event.head_commit.message, '[skip ci]') }}
 
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3
         with:
           submodules: 'recursive'
           fetch-depth: 0
 
-      - name: set up JDK 17
-        uses: actions/setup-java@v3.9.0
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'adopt'
           cache: gradle
 
       - name: Cache Gradle Dependencies
-        uses: actions/cache@v3.2.4
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
@@ -39,7 +39,7 @@ jobs:
             gradle-deps
 
       - name: Cache Gradle Build
-        uses: actions/cache@v3.2.4
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches/build-cache-*
@@ -51,5 +51,10 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Decode public key
+        run: echo "${{ secrets.PUBLIC_KEY_BASE64 }}" | base64 --decode > $GITHUB_WORKSPACE/app/public_key.pem
+
       - name: Build with Gradle
         run: ./gradlew :app:assembleDebug
+        env:
+          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY_BASE64 }}
