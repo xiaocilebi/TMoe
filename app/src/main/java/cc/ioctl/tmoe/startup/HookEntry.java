@@ -23,7 +23,7 @@ public class HookEntry implements IXposedHookLoadPackage, IXposedHookZygoteInit 
             "xyz.nextalone.nnngram",
             "com.xtaolabs.pagergram",
             "org.telegram.messenger.web",
-            "com.cool2645.nekolite",
+            "org.telegram.group",
             "com.iMe.android",
             "org.telegram.BifToGram",
             "ua.itaysonlab.messenger",
